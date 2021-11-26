@@ -20,6 +20,10 @@ public class FlightApp {
         }
     };
 
+    private mapFlights = new Tuple2<Integer, String>() {
+
+    }
+
     public static void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.err.println("Usage: FlightApp <1: input path FlightMapper> <2: input path AirportMapper> <output path>");
