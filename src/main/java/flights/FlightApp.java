@@ -4,8 +4,18 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.Function2;
+
+import java.util.Iterator;
 
 public class FlightApp {
+    private handalingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
+        if (index == 0 && iter.hasNext()) {
+            return iter.next();
+        }
+        return iter;
+    }
+
     public static void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.err.println("Usage: FlightApp <1: input path FlightMapper> <2: input path AirportMapper> <output path>");
@@ -19,8 +29,8 @@ public class FlightApp {
         String airportMapperPath = args[1];
         String outPath = args[2];
 
-        JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).mapPartitionsWithIndex(
-                (index, iter) -> {
+        JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).
+                mapPartitionsWithIndex((index, iter) -> {
                     if (index == 0 && iter.hasNext()) {
                         return iter.next();
                     }
