@@ -23,5 +23,7 @@ public class FlightApp {
         JavaRDD<String> airportRddRecords =  sctx.textFile(airportMapperPath);
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
+
+        
     }
 }
