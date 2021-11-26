@@ -61,7 +61,7 @@ public class FlightApp {
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(FlightSerializable flight) {
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(Tuple2<Tuple2<Integer, Integer>, FlightSerializable> flight) {
 
     }
 
@@ -81,11 +81,11 @@ public class FlightApp {
         JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
-                mapPartitionsWithIndex(handlingCVS, false);;
+                mapPartitionsWithIndex(handlingCVS, false);
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduce(x - > reduceFlights(x));
+                .reduce(x -> reduceFlights(x));
 
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
