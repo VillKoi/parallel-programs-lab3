@@ -61,6 +61,10 @@ public class FlightApp {
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(FlightSerializable flight) {
+
+    }
+
     public void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.err.println("Usage: FlightApp <1: input path FlightMapper> <2: input path AirportMapper> <output path>");
@@ -81,7 +85,7 @@ public class FlightApp {
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduce();
+                .reduce(x - > reduceFlights(x));
 
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
