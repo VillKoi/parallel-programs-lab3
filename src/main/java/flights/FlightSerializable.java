@@ -7,9 +7,12 @@ public class FlightSerializable implements Serializable {
     private float maxDelayingTime;
     private int cancelled;
     private int delaying;
+    private int totalFlights;
 
     public FlightSerializable(float delayingTime, boolean isCancelled) {
         this.delayingTime += delayingTime;
+        this.totalFlights++;
+        
         if (delayingTime != 0) {
             delaying++;
         }
