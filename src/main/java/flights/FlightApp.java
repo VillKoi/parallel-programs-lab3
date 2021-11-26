@@ -59,8 +59,7 @@ public class FlightApp {
         String airportName = removeDoubleQuotes(values[AIRPORT_NAME_NUMBER]);
 
         return new Tuple2<>(
-                new Tuple2<>(originAirportID, destAirportID),
-                new AirportSerializable(delay, isCancelled)
+                new AirportSerializable(airportID, airportName)
         );
     }
 
@@ -77,7 +76,7 @@ public class FlightApp {
         String airportMapperPath = args[1];
         String outPath = args[2];
 
-        JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).
+        JavaRDD<FlightSerializable> flightRddRecords = sctx.textFile(flightMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);;
