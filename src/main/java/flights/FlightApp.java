@@ -26,7 +26,7 @@ public class FlightApp {
     private static final int DEST_AIRPORT_ID = 14;
     private static final int ORIGIN_AIRPORT_ID = 11;
     private static final int ARR_DELAY = 18;
-    private static final int CANCELLED = 19;
+    private static final int CANCELLED = 20;
 
     private static String removeDoubleQuotes(String value) {
         return value.replaceAll(DOUBLE_QUOTES, "");
@@ -42,7 +42,7 @@ public class FlightApp {
         String originAiportID = removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]);
         String destAirportID = removeDoubleQuotes(values[DEST_AIRPORT_ID]);
         String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
-        String isCancelled = removeDoubleQuotes(values[CANCELLED]);
+        boolean isCancelled = !removeDoubleQuotes(values[CANCELLED]).isEmpty();
 
 
         if (delayingTime.isEmpty()) {
