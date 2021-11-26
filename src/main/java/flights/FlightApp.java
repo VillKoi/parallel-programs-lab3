@@ -25,7 +25,6 @@ public class FlightApp {
     private static final int AIRPORT_ID_NUMBER = 14;
     private static final int ARR_DELAY_NUMBER = 18;
 
-
     private static String removeDoubleQuotes(String value) {
         return value.replaceAll(DOUBLE_QUOTES, "");
     }
@@ -41,14 +40,18 @@ public class FlightApp {
         String delayingTime = removeDoubleQuotes(values[ARR_DELAY_NUMBER]);
 
         if (delayingTime.isEmpty()) {
-            return;
+            return "";
         }
 
         float delay = Float.parseFloat(delayingTime);
 
         if (correctDelayingTime(delay)) {
-            return;
+            return "";
         }
+
+        return new Tuple2<>(
+                new Tuple2<>(destAirportID, delayingTime)
+        )
     }
 
     public void main(String[] args) throws Exception {
