@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 public class FlightSerializable implements Serializable {
     private float delayingTime;
-    private boolean isCancelled;
+    private int cancelled;
 
-    public FlightSerializable(float delayingTime, boolean isCancelled){
-
+    public FlightSerializable(float delayingTime, boolean isCancelled) {
+        this.delayingTime = delayingTime;
+        if (isCancelled) {
+            this.cancelled++;
+        }
     }
-
 }
