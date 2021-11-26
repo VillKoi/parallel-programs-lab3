@@ -57,7 +57,7 @@ public class FlightApp {
 
         return new Tuple2<>(
                 new Tuple2<>(destAirportID, delayingTime),
-                new  FlightSerializable(),
+                new  FlightSerializable(delay, isCancelled),
         );
     }
 
