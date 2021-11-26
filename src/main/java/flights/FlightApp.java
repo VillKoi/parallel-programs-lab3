@@ -32,11 +32,23 @@ public class FlightApp {
         return value.replaceAll(DOUBLE_QUOTES, "");
     }
 
-//    private static boolean correctDelayingTime(float delay) {
-//        return delay != 0;
-//    }
-
     private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapFlights(String text) {
+        String[] values = text.split(STRING_SPLITTER);
+
+        Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
+        Integer destAirportID = Integer.parseInt(removeDoubleQuotes(values[DEST_AIRPORT_ID]));
+        String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
+        boolean isCancelled = !removeDoubleQuotes(values[CANCELLED]).isEmpty();
+
+        float delay = delayingTime.isEmpty() ? 0 : Float.parseFloat(delayingTime);
+
+        return new Tuple2<>(
+                new Tuple2<>(originAirportID, destAirportID),
+                new  FlightSerializable(delay, isCancelled)
+        );
+    }
+
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapAirports(String text) {
         String[] values = text.split(STRING_SPLITTER);
 
         Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
@@ -73,7 +85,9 @@ public class FlightApp {
         JavaPairRDD<Tuple2<Integer, Integer>, String> flightRddPairs = flightRddRecords.mapToPair(
                 x -> mapFlights(x)
         );
-        JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
+        JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair(
+                x -> mapAirports(x)
+        );
 
         final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(stringAirportDataMap);
     }
