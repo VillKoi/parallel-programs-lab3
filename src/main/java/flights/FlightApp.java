@@ -5,6 +5,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function2;
+import scala.Tuple2;
 
 import java.util.Iterator;
 
@@ -37,7 +38,9 @@ public class FlightApp {
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);;
 
-        JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
+        JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair(
+                s -> new Tuple2<>(s, 1l)
+        );
         JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
 
         final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(stringAirportDataMap);
