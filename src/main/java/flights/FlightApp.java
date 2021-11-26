@@ -20,7 +20,7 @@ public class FlightApp {
         }
     };
 
-    private static final String STRING_SPLITTER = ",";
+    private static final String FLIGHT_STRING_SPLITTER = ",";
     private static final String DOUBLE_QUOTES = "\"";
     // number in cvs
     private static final int DEST_AIRPORT_ID = 14;
@@ -33,7 +33,7 @@ public class FlightApp {
     }
 
     private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapFlights(String text) {
-        String[] values = text.split(STRING_SPLITTER);
+        String[] values = text.split(FLIGHT_STRING_SPLITTER);
 
         Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
         Integer destAirportID = Integer.parseInt(removeDoubleQuotes(values[DEST_AIRPORT_ID]));
@@ -48,19 +48,19 @@ public class FlightApp {
         );
     }
 
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapAirports(String text) {
-        String[] values = text.split(STRING_SPLITTER);
+    private static final String AIRPORT_STRING_SPLITTER = ",";
+    private static final int AIRPORT_ID_NUMBER = 0;
+    private static final int AIRPORT_NAME_NUMBER = 1;
 
-        Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
-        Integer destAirportID = Integer.parseInt(removeDoubleQuotes(values[DEST_AIRPORT_ID]));
-        String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
-        boolean isCancelled = !removeDoubleQuotes(values[CANCELLED]).isEmpty();
+    private static Tuple2<Tuple2<Integer, Integer>, AirportSerializable>  mapAirports(String text) {
+        String[] values = text.split(AIRPORT_STRING_SPLITTER);
 
-        float delay = delayingTime.isEmpty() ? 0 : Float.parseFloat(delayingTime);
+        String airportID = removeDoubleQuotes(values[AIRPORT_ID_NUMBER]);
+        String airportName = removeDoubleQuotes(values[AIRPORT_NAME_NUMBER]);
 
         return new Tuple2<>(
                 new Tuple2<>(originAirportID, destAirportID),
-                new  FlightSerializable(delay, isCancelled)
+                new AirportSerializable(delay, isCancelled)
         );
     }
 

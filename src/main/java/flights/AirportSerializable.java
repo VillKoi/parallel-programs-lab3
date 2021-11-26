@@ -1,4 +1,6 @@
 package flights;
 
-public class AirportSerializable implements  Serializable{
+import java.io.Serializable;
+
+public class AirportSerializable implements Serializable {
 }
