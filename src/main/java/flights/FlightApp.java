@@ -34,7 +34,7 @@ public class FlightApp {
         return delay != 0;
     }
 
-    private mapFlights = new Tuple2<Integer, String>(String text) {
+    private static Tuple2<Tuple2<Integer, Integer>, String>  mapFlights(String text) {
         String[] values = text.split(STRING_SPLITTER);
 
         String destAirportID = removeDoubleQuotes(values[AIRPORT_ID_NUMBER]);
@@ -51,7 +51,7 @@ public class FlightApp {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.err.println("Usage: FlightApp <1: input path FlightMapper> <2: input path AirportMapper> <output path>");
             System.exit(-1);
@@ -69,7 +69,7 @@ public class FlightApp {
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);;
 
-        JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair(
+        JavaPairRDD<Tuple2<Integer, Integer>, String> flightRddPairs = flightRddRecords.mapToPair(
                 x -> mapFlights(x)
         );
         JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
