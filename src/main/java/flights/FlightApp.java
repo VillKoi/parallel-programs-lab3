@@ -20,8 +20,35 @@ public class FlightApp {
         }
     };
 
-    private mapFlights = new Tuple2<Integer, String>(String str) {
+    private static final String STRING_SPLITTER = ",";
+    private static final String DOUBLE_QUOTES = "\"";
+    private static final int AIRPORT_ID_NUMBER = 14;
+    private static final int ARR_DELAY_NUMBER = 18;
 
+
+    private static String removeDoubleQuotes(String value) {
+        return value.replaceAll(DOUBLE_QUOTES, "");
+    }
+
+    private static boolean correctDelayingTime(float delay) {
+        return delay != 0;
+    }
+
+    private mapFlights = new Tuple2<Integer, String>(String text) {
+        String[] values = text.split(STRING_SPLITTER);
+
+        String destAirportID = removeDoubleQuotes(values[AIRPORT_ID_NUMBER]);
+        String delayingTime = removeDoubleQuotes(values[ARR_DELAY_NUMBER]);
+
+        if (delayingTime.isEmpty()) {
+            return;
+        }
+
+        float delay = Float.parseFloat(delayingTime);
+
+        if (correctDelayingTime(delay)) {
+            return;
+        }
     }
 
     public static void main(String[] args) throws Exception {
