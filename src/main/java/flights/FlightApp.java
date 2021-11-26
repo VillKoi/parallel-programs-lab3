@@ -19,11 +19,14 @@ public class FlightApp {
         String airportMapperPath = args[1];
         String outPath = args[2];
 
-        JavaRDD<String> flightRddRecords =  sctx.textFile(flightMapperPath).mapPartitionsWithIndex(
+        JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).mapPartitionsWithIndex(
                 (index, iter) -> {
-                    
+                    if (index == 0 && iter.hasNext()) {
+                        return iter.next();
+                    }
+                    return iter;
                 }, false);
-        JavaRDD<String> airportRddRecords =  sctx.textFile(airportMapperPath);
+        JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath);
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
         JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
