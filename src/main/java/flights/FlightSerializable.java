@@ -12,7 +12,7 @@ public class FlightSerializable implements Serializable {
     public FlightSerializable(float delayingTime, boolean isCancelled) {
         this.delayingTime += delayingTime;
         this.totalFlights++;
-        
+
         if (delayingTime != 0) {
             delaying++;
         }
