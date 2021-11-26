@@ -24,6 +24,6 @@ public class FlightApp {
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
 
-        
+        final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(stringAirportDataMap);
     }
 }
