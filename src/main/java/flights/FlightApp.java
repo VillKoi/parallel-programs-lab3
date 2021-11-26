@@ -52,15 +52,13 @@ public class FlightApp {
     private static final int AIRPORT_ID_NUMBER = 0;
     private static final int AIRPORT_NAME_NUMBER = 1;
 
-    private static Tuple2<Tuple2<Integer, Integer>, AirportSerializable>  mapAirports(String text) {
+    private static Tuple2<Integer, AirportSerializable>  mapAirports(String text) {
         String[] values = text.split(AIRPORT_STRING_SPLITTER);
 
         String airportID = removeDoubleQuotes(values[AIRPORT_ID_NUMBER]);
         String airportName = removeDoubleQuotes(values[AIRPORT_NAME_NUMBER]);
 
-        return new Tuple2<>(
-                new AirportSerializable(airportID, airportName)
-        );
+        return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
     public void main(String[] args) throws Exception {
@@ -76,18 +74,18 @@ public class FlightApp {
         String airportMapperPath = args[1];
         String outPath = args[2];
 
-        JavaRDD<FlightSerializable> flightRddRecords = sctx.textFile(flightMapperPath).
+        JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);;
 
-        JavaPairRDD<Tuple2<Integer, Integer>, String> flightRddPairs = flightRddRecords.mapToPair(
-                x -> mapFlights(x)
+        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
+                .mapToPair(x -> mapFlights(x)
         );
-        JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair(
-                x -> mapAirports(x)
+        JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
+                .mapToPair(x -> mapAirports(x)
         );
 
-        final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(stringAirportDataMap);
+        final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(airportRddRecords);
     }
 }
