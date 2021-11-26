@@ -22,9 +22,11 @@ public class FlightApp {
 
     private static final String STRING_SPLITTER = ",";
     private static final String DOUBLE_QUOTES = "\"";
+    // number in cvs
     private static final int DEST_AIRPORT_ID = 14;
-    private static final int DELAY_AIRPORT_ID = 14;
-    private static final int ARR_DELAY_NUMBER = 18;
+    private static final int ORIGIN_AIRPORT_ID = 11;
+    private static final int ARR_DELAY = 18;
+    private static final int ARR_DELAY = 18;
 
     private static String removeDoubleQuotes(String value) {
         return value.replaceAll(DOUBLE_QUOTES, "");
@@ -37,9 +39,10 @@ public class FlightApp {
     private static Tuple2<Tuple2<Integer, Integer>, String>  mapFlights(String text) {
         String[] values = text.split(STRING_SPLITTER);
 
+        String originAiportID = removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]);
         String destAirportID = removeDoubleQuotes(values[DEST_AIRPORT_ID]);
-        String delayingTime = removeDoubleQuotes(values[ARR_DELAY_NUMBER]);
-        String delayAiportID = removeDoubleQuotes(values[DELAY_AIRPORT_ID]);
+        String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
+
 
         if (delayingTime.isEmpty()) {
             return "";
