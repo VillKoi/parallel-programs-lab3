@@ -39,15 +39,15 @@ public class FlightApp {
     private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapFlights(String text) {
         String[] values = text.split(STRING_SPLITTER);
 
-        String originAiportID = removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]);
-        String destAirportID = removeDoubleQuotes(values[DEST_AIRPORT_ID]);
+        Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
+        Integer destAirportID = Integer.parseInt(removeDoubleQuotes(values[DEST_AIRPORT_ID]));
         String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
         boolean isCancelled = !removeDoubleQuotes(values[CANCELLED]).isEmpty();
 
         float delay = delayingTime.isEmpty() ? 0 : Float.parseFloat(delayingTime);
 
         return new Tuple2<>(
-                new Tuple2<>(destAirportID, destAirportID),
+                new Tuple2<>(originAirportID, destAirportID),
                 new  FlightSerializable(delay, isCancelled)
         );
     }
