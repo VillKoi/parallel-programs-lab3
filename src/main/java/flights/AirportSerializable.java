@@ -3,11 +3,11 @@ package flights;
 import java.io.Serializable;
 
 public class AirportSerializable implements Serializable {
-    private String airportID;
+    private Integer airportID;
     private String airportName;
 
 
-    public AirportSerializable(String airportID, String airportName) {
+    public AirportSerializable(Integer airportID, String airportName) {
         this.airportID =  airportID;
         this.airportName = airportName;
     }

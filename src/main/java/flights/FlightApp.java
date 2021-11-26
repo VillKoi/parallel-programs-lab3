@@ -10,7 +10,7 @@ import scala.Tuple2;
 import java.util.Iterator;
 
 public class FlightApp {
-    private static Function2 handlingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
+    private static final Function2<Integer, Iterator<String>, Iterator<String>> handlingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
         public Iterator<String> call(Integer index, Iterator<String> iter) {
             if (index == 0 && iter.hasNext()) {
                 iter.next();
@@ -55,7 +55,7 @@ public class FlightApp {
     private static Tuple2<Integer, AirportSerializable>  mapAirports(String text) {
         String[] values = text.split(AIRPORT_STRING_SPLITTER);
 
-        String airportID = removeDoubleQuotes(values[AIRPORT_ID_NUMBER]);
+        Integer airportID =  Integer.parseInt( removeDoubleQuotes(values[AIRPORT_ID_NUMBER]));
         String airportName = removeDoubleQuotes(values[AIRPORT_NAME_NUMBER]);
 
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
