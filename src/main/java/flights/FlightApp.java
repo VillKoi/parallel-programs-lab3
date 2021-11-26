@@ -19,7 +19,7 @@ public class FlightApp {
         String airportMapperPath = args[1];
         String outPath = args[2];
 
-        JavaRDD<String> flightRddRecords =  sctx.textFile(flightMapperPath);
+        JavaRDD<String> flightRddRecords =  sctx.textFile(flightMapperPath).map();
         JavaRDD<String> airportRddRecords =  sctx.textFile(airportMapperPath);
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
