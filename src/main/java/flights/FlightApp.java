@@ -32,11 +32,11 @@ public class FlightApp {
         return value.replaceAll(DOUBLE_QUOTES, "");
     }
 
-    private static boolean correctDelayingTime(float delay) {
-        return delay != 0;
-    }
+//    private static boolean correctDelayingTime(float delay) {
+//        return delay != 0;
+//    }
 
-    private static Tuple2<Tuple2<Integer, Integer>, String>  mapFlights(String text) {
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapFlights(String text) {
         String[] values = text.split(STRING_SPLITTER);
 
         String originAiportID = removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]);
@@ -44,20 +44,11 @@ public class FlightApp {
         String delayingTime = removeDoubleQuotes(values[ARR_DELAY]);
         boolean isCancelled = !removeDoubleQuotes(values[CANCELLED]).isEmpty();
 
-
-        if (delayingTime.isEmpty()) {
-            return "";
-        }
-
-        float delay = Float.parseFloat(delayingTime);
-
-        if (correctDelayingTime(delay)) {
-            return "";
-        }
+        float delay = delayingTime.isEmpty() ? 0 : Float.parseFloat(delayingTime);
 
         return new Tuple2<>(
-                new Tuple2<>(destAirportID, delayingTime),
-                new  FlightSerializable(delay, isCancelled),
+                new Tuple2<>(destAirportID, destAirportID),
+                new  FlightSerializable(delay, isCancelled)
         );
     }
 
