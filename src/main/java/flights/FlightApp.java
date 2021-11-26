@@ -9,12 +9,15 @@ import org.apache.spark.api.java.function.Function2;
 import java.util.Iterator;
 
 public class FlightApp {
-    private handalingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
-        if (index == 0 && iter.hasNext()) {
-            return iter.next();
+    private static Function2 handlingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
+        public Iterator<String> call(Integer index, Iterator<String> iter) {
+            if (index == 0 && iter.hasNext()) {
+                iter.next();
+                return iter;
+            }
+            return iter;
         }
-        return iter;
-    }
+    };
 
     public static void main(String[] args) throws Exception {
         if (args.length != 3) {
@@ -30,13 +33,9 @@ public class FlightApp {
         String outPath = args[2];
 
         JavaRDD<String> flightRddRecords = sctx.textFile(flightMapperPath).
-                mapPartitionsWithIndex((index, iter) -> {
-                    if (index == 0 && iter.hasNext()) {
-                        return iter.next();
-                    }
-                    return iter;
-                }, false);
-        JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath);
+                mapPartitionsWithIndex(handlingCVS, false);
+        JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
+                mapPartitionsWithIndex(handlingCVS, false);;
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair();
         JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
