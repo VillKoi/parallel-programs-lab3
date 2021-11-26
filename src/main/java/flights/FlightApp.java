@@ -20,7 +20,7 @@ public class FlightApp {
         }
     };
 
-    private mapFlights = new Tuple2<Integer, String>() {
+    private mapFlights = new Tuple2<Integer, String>(String str) {
 
     }
 
@@ -43,7 +43,7 @@ public class FlightApp {
                 mapPartitionsWithIndex(handlingCVS, false);;
 
         JavaPairRDD<Integer, String> flightRddPairs = flightRddRecords.mapToPair(
-                x -> new Tuple2<Integer, String>(x, y)
+                x -> mapFlights(x)
         );
         JavaPairRDD<Integer, String> airportRddPairs = airportRddRecords.mapToPair();
 
