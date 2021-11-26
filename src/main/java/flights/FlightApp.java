@@ -80,8 +80,9 @@ public class FlightApp {
                 mapPartitionsWithIndex(handlingCVS, false);;
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
-                .mapToPair(x -> mapFlights(x)
-        );
+                .mapToPair(x -> mapFlights(x))
+                .reduce();
+
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
         );
