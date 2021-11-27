@@ -8,6 +8,7 @@ import org.apache.spark.api.java.function.Function2;
 import scala.Tuple2;
 
 import java.util.Iterator;
+import java.util.Map;
 
 public class FlightApp {
     private static final Function2<Integer, Iterator<String>, Iterator<String>> handlingCVS = new Function2<Integer, Iterator<String>, Iterator<String>>() {
@@ -80,13 +81,17 @@ public class FlightApp {
         JavaRDD<String> airportRddRecords = sctx.textFile(airportMapperPath).
                 mapPartitionsWithIndex(handlingCVS, false);
 
+        JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
+                .mapToPair(x -> mapAirports(x));
+
+        Map<Integer ,String> mapAirports = airportRddPairs.collectAsMap();
+
+
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
                 .reduceByKey((x, y) -> x.AddFlight(y));
 
-        JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
-                .mapToPair(x -> mapAirports(x)
-                );
+
 
         final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(airportRddRecords);
     }
