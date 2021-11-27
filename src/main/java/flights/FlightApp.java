@@ -27,8 +27,8 @@ public class FlightApp {
     private static final String FLIGHT_STRING_SPLITTER = ",";
     private static final String DOUBLE_QUOTES = "\"";
     // number in cvs
-    private static final int DEST_AIRPORT_ID = 14;
     private static final int ORIGIN_AIRPORT_ID = 11;
+    private static final int DEST_AIRPORT_ID = 14;
     private static final int ARR_DELAY = 18;
     private static final int CANCELLED = 20;
 
@@ -96,14 +96,11 @@ public class FlightApp {
     }
 
     private String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
-        return airport.getName() +
-                "Mean time:" + meanTime +
-                ", Max time: " + maxTime +
-                ", Min time: " + minTime;
-    }
+        return "ORIGIN_AIRPORT_ID:" + x._1._1.toString() +
+                "ORIGIN_AIRPORT_NAME" + value[x._1._1] +
+                "DEST_AIRPORT_ID:" + x._1._2.toString() +
 
-    private String createOutPut(AirportSerializable airport, FlightSerializable flight) {
-        return airport.getName() +
+                airport.getName() +
                 "Mean time:" + meanTime +
                 ", Max time: " + maxTime +
                 ", Min time: " + minTime;
