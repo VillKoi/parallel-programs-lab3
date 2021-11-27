@@ -12,15 +12,13 @@ public class FlightSerializable implements Serializable {
     private int totalFlights;
 
     public FlightSerializable(float delayingTime, boolean isCancelled) {
-        this.delayingTime += delayingTime;
+        this.delayingTime = delayingTime;
+        this.isCancelled = isCancelled;
         this.totalFlights++;
+        this.maxDelayingTime = delayingTime;
 
         if (delayingTime != 0) {
             this.delaying++;
-        }
-
-        if (delayingTime > this.maxDelayingTime) {
-            this.maxDelayingTime = delayingTime;
         }
 
         if (isCancelled) {
@@ -36,12 +34,14 @@ public class FlightSerializable implements Serializable {
             this.delaying++;
         }
 
-        if (delayingTime > this.maxDelayingTime) {
-            this.maxDelayingTime = delayingTime;
+        if (y.delayingTime > this.maxDelayingTime) {
+            this.maxDelayingTime = y.delayingTime;
         }
 
         if (y.isCancelled) {
             this.cancelled++;
         }
+
+        return this;
     }
 }
