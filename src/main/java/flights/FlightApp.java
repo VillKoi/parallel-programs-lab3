@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 public class FlightApp {
     private static final Function2<Integer, Iterator<String>, Iterator<String>> handlingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
+        @Override
         public Iterator<String> call(Integer index, Iterator<String> iter) {
             if (index == 0 && iter.hasNext()) {
                 iter.next();
@@ -61,11 +62,14 @@ public class FlightApp {
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(FlightSerializable flight) {
-        return new Tuple2<>(
-                new Tuple2<>(flight.originAirportID, flight.destAirportID),
-                new  FlightSerializable(flight.delay, flight.isCancelled)
-        );
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights = new Function2<Tuple2<Tuple2<Integer, Integer>, FlightSerializable>> () {
+        @Override
+        public FlightSerializable call(FlightSerializable x, FlightSerializable y) {
+            return new Tuple2<>(
+                    new Tuple2<>(flight.originAirportID, flight.destAirportID),
+                    new  FlightSerializable(flight.delay, flight.isCancelled)
+            );
+        };
     }
 
     public void main(String[] args) throws Exception {
