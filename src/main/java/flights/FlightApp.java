@@ -1,5 +1,6 @@
 package flights;
 
+import org.apache.hadoop.io.Text;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -88,12 +89,16 @@ public class FlightApp {
         Map<Integer, AirportSerializable> mapAirports = airportRddPairs.collectAsMap();
         final Broadcast<Map<Integer, AirportSerializable>> airportsBroadcasted = sctx.broadcast(mapAirports);
 
-        JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
+        JavaPairRDD<String> result = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
                 .reduceByKey((x, y) -> x.AddFlight(y))
-                .map(x - >);
+                .map(x -> createOutPut(airportsBroadcasted.value(), x));
+    }
 
-
-
+    private String createOutPut(AirportSerializable airport, FlightSerializable, flight) {
+      return new Text(  airport.getName()
+                "Mean time:" + meanTime +
+                        ", Max time: " + maxTime +
+                        ", Min time: " + minTime))
     }
 }

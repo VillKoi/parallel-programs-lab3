@@ -11,4 +11,8 @@ public class AirportSerializable implements Serializable {
         this.airportID =  airportID;
         this.airportName = airportName;
     }
+
+    public String getName() {
+        return this.airportName
+    }
 }
