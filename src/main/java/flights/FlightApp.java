@@ -89,16 +89,19 @@ public class FlightApp {
         Map<Integer, AirportSerializable> mapAirports = airportRddPairs.collectAsMap();
         final Broadcast<Map<Integer, AirportSerializable>> airportsBroadcasted = sctx.broadcast(mapAirports);
 
-        JavaPairRDD<String> result = flightRddRecords
+        JavaRDD<String> result = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
                 .reduceByKey((x, y) -> x.AddFlight(y))
                 .map(x -> createOutPut(airportsBroadcasted.value(), x));
     }
 
-    private String createOutPut(AirportSerializable airport, FlightSerializable, flight) {
-      return new Text(  airport.getName()
+    private String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
+    }
+
+    private String createOutPut(AirportSerializable airport, FlightSerializable flight) {
+        return airport.getName() +
                 "Mean time:" + meanTime +
-                        ", Max time: " + maxTime +
-                        ", Min time: " + minTime))
+                ", Max time: " + maxTime +
+                ", Min time: " + minTime;
     }
 }
