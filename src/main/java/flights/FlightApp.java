@@ -65,7 +65,7 @@ public class FlightApp {
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
-    public void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.err.println("Usage: FlightApp <1: input path FlightMapper> <2: input path AirportMapper> <output path>");
             System.exit(-1);
@@ -95,7 +95,7 @@ public class FlightApp {
                 .map(x -> createOutPut(airportsBroadcasted.value(), x));
     }
 
-    private String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
+    private static String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
         return "ORIGIN_AIRPORT_ID:" + x._1._1.toString() +
                 "ORIGIN_AIRPORT_NAME" + value.get(x._1._1).getName() +
                 "DEST_AIRPORT_ID:" + x._1._2.toString() +
