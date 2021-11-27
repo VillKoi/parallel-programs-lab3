@@ -10,7 +10,7 @@ import scala.Tuple2;
 import java.util.Iterator;
 
 public class FlightApp {
-    private static final Function2<Integer, Iterator<String>, Iterator<String>> handlingCVS  = new Function2<Integer, Iterator<String>, Iterator<String>>() {
+    private static final Function2<Integer, Iterator<String>, Iterator<String>> handlingCVS = new Function2<Integer, Iterator<String>, Iterator<String>>() {
         @Override
         public Iterator<String> call(Integer index, Iterator<String> iter) {
             if (index == 0 && iter.hasNext()) {
@@ -33,7 +33,7 @@ public class FlightApp {
         return value.replaceAll(DOUBLE_QUOTES, "");
     }
 
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  mapFlights(String text) {
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable> mapFlights(String text) {
         String[] values = text.split(FLIGHT_STRING_SPLITTER);
 
         Integer originAirportID = Integer.parseInt(removeDoubleQuotes(values[ORIGIN_AIRPORT_ID]));
@@ -45,7 +45,7 @@ public class FlightApp {
 
         return new Tuple2<>(
                 new Tuple2<>(originAirportID, destAirportID),
-                new  FlightSerializable(delay, isCancelled)
+                new FlightSerializable(delay, isCancelled)
         );
     }
 
@@ -53,23 +53,13 @@ public class FlightApp {
     private static final int AIRPORT_ID_NUMBER = 0;
     private static final int AIRPORT_NAME_NUMBER = 1;
 
-    private static Tuple2<Integer, AirportSerializable>  mapAirports(String text) {
+    private static Tuple2<Integer, AirportSerializable> mapAirports(String text) {
         String[] values = text.split(AIRPORT_STRING_SPLITTER);
 
-        Integer airportID =  Integer.parseInt( removeDoubleQuotes(values[AIRPORT_ID_NUMBER]));
+        Integer airportID = Integer.parseInt(removeDoubleQuotes(values[AIRPORT_ID_NUMBER]));
         String airportName = removeDoubleQuotes(values[AIRPORT_NAME_NUMBER]);
 
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
-    }
-
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights = new Function2<Tuple2<Tuple2<Integer, Integer>, FlightSerializable>> () {
-        @Override
-        public FlightSerializable call(FlightSerializable x, FlightSerializable y) {
-            return new Tuple2<>(
-                    new Tuple2<>(flight.originAirportID, flight.destAirportID),
-                    new  FlightSerializable(flight.delay, flight.isCancelled)
-            );
-        };
     }
 
     public void main(String[] args) throws Exception {
@@ -92,11 +82,11 @@ public class FlightApp {
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduceByKey(x, y -> reduceFlights(x, y));
+                .reduceByKey((x, y) -> x.AddFlight(y));
 
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
-        );
+                );
 
         final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(airportRddRecords);
     }

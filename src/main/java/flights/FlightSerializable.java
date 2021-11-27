@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class FlightSerializable implements Serializable {
     private float delayingTime;
+    private boolean isCancelled;
+
     private float maxDelayingTime;
     private int cancelled;
     private int delaying;
@@ -14,7 +16,7 @@ public class FlightSerializable implements Serializable {
         this.totalFlights++;
 
         if (delayingTime != 0) {
-            delaying++;
+            this.delaying++;
         }
 
         if (delayingTime > this.maxDelayingTime) {
@@ -22,6 +24,23 @@ public class FlightSerializable implements Serializable {
         }
 
         if (isCancelled) {
+            this.cancelled++;
+        }
+    }
+
+    public FlightSerializable AddFlight(FlightSerializable y) {
+        this.delayingTime += y.delayingTime;
+        this.totalFlights++;
+
+        if (y.delayingTime != 0) {
+            this.delaying++;
+        }
+
+        if (delayingTime > this.maxDelayingTime) {
+            this.maxDelayingTime = delayingTime;
+        }
+
+        if (y.isCancelled) {
             this.cancelled++;
         }
     }
