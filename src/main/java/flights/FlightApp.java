@@ -100,8 +100,9 @@ public class FlightApp {
                 "ORIGIN_AIRPORT_NAME" + value.get(x._1._1).getName() +
                 "DEST_AIRPORT_ID:" + x._1._2.toString() +
                 "DEST_AIRPORT_NAME" + value.get(x._1._2).getName() +
-                "Percent delaying:" + x._2. +
-                ", Max time: " + maxTime +
-                ", Min time: " + minTime;
+                "Max delaying time: " + x._2.getMaxDelayingTime() +
+                "Percent delaying:" + x._2.getPercentDelaying() +
+                "Percent cancelled:" + x._2.getPercentCancelled() +
+                "Percent delaying and cancelled:" + x._2.getPercentDelayingAndCancelled();
     }
 }

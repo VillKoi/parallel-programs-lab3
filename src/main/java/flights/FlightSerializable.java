@@ -66,6 +66,14 @@ public class FlightSerializable implements Serializable {
     }
 
     public float getPercentDelaying() {
-        return totalDelaying / totalFlights * 100;
+        return (float) totalDelaying / totalFlights * 100;
+    }
+
+    public float getPercentCancelled() {
+        return (float) cancelled / totalFlights * 100;
+    }
+
+    public float getPercentDelayingAndCancelled() {
+        return (float) (totalDelaying + cancelled) / totalFlights * 100;
     }
 }
