@@ -100,7 +100,7 @@ public class FlightApp {
                 "ORIGIN_AIRPORT_NAME" + value.get(x._1._1).getName() +
                 "DEST_AIRPORT_ID:" + x._1._2.toString() +
                 "DEST_AIRPORT_NAME" + value.get(x._1._2).getName() +
-                "Mean time:" + meanTime +
+                "Percent delaying:" + x._2. +
                 ", Max time: " + maxTime +
                 ", Min time: " + minTime;
     }

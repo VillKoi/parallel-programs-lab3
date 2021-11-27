@@ -13,6 +13,6 @@ public class AirportSerializable implements Serializable {
     }
 
     public String getName() {
-        return this.airportName
+        return this.airportName;
     }
 }
