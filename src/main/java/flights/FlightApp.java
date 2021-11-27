@@ -85,7 +85,7 @@ public class FlightApp {
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduce(x -> reduceFlights(x));
+                .reduceByKey(x -> reduceFlights(x));
 
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
