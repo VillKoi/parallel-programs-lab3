@@ -62,7 +62,10 @@ public class FlightApp {
     }
 
     private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(FlightSerializable flight) {
-
+        return new Tuple2<>(
+                new Tuple2<>(flight.originAirportID, flight.destAirportID),
+                new  FlightSerializable(flight.delay, flight.isCancelled)
+        );
     }
 
     public void main(String[] args) throws Exception {
@@ -85,7 +88,7 @@ public class FlightApp {
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduceByKey(x -> reduceFlights(x));
+                .reduceByKey(x, y -> reduceFlights(x, y));
 
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x)
