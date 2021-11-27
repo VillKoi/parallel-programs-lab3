@@ -5,6 +5,7 @@ import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.broadcast.Broadcast;
 import scala.Tuple2;
 
 import java.util.Iterator;
@@ -84,15 +85,15 @@ public class FlightApp {
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x));
 
-        Map<Integer ,String> mapAirports = airportRddPairs.collectAsMap();
-
+        Map<Integer, AirportSerializable> mapAirports = airportRddPairs.collectAsMap();
+        final Broadcast<Map<Integer, AirportSerializable>> airportsBroadcasted = sctx.broadcast(mapAirports);
 
         JavaPairRDD<Tuple2<Integer, Integer>, FlightSerializable> flightRddPairs = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
-                .reduceByKey((x, y) -> x.AddFlight(y));
+                .reduceByKey((x, y) -> x.AddFlight(y))
+                .map(x - >);
 
 
 
-        final Broadcast<Map<String, AirportData>> airportsBroadcasted = sctx.broadcast(airportRddRecords);
     }
 }
