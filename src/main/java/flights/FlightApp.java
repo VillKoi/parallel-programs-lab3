@@ -97,10 +97,9 @@ public class FlightApp {
 
     private String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
         return "ORIGIN_AIRPORT_ID:" + x._1._1.toString() +
-                "ORIGIN_AIRPORT_NAME" + value[x._1._1] +
+                "ORIGIN_AIRPORT_NAME" + value.get(x._1._1).getName() +
                 "DEST_AIRPORT_ID:" + x._1._2.toString() +
-
-                airport.getName() +
+                "DEST_AIRPORT_NAME" + value.get(x._1._2).getName() +
                 "Mean time:" + meanTime +
                 ", Max time: " + maxTime +
                 ", Min time: " + minTime;
