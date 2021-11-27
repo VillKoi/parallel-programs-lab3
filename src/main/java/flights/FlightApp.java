@@ -71,7 +71,7 @@ public class FlightApp {
             System.exit(-1);
         }
 
-        SparkConf conf = new SparkConf().setAppName("lab3").set("spark.driver.host", "127.0.0.1");
+        SparkConf conf = new SparkConf().setAppName("lab3");
         JavaSparkContext sctx = new JavaSparkContext(conf);
 
         String flightMapperPath = args[0];
