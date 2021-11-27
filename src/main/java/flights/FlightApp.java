@@ -71,7 +71,9 @@ public class FlightApp {
             System.exit(-1);
         }
 
-        SparkConf conf = new SparkConf().setAppName("lab3").set("spark.driver.host", "127.0.0.1");
+        SparkConf conf = new SparkConf().setAppName("lab3").setMaster("yarn")
+                .set("spark.hadoop.yarn.resourcemanager.hostname", "127.0.0.1")
+                .set("spark.hadoop.yarn.resourcemanager.address", "127.0.0.1:8032");
         JavaSparkContext sctx = new JavaSparkContext(conf);
 
         String flightMapperPath = args[0];
