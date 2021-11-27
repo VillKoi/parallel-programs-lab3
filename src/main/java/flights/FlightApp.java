@@ -61,7 +61,7 @@ public class FlightApp {
         return new Tuple2<>(airportID, new AirportSerializable(airportID, airportName));
     }
 
-    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(Tuple2<Tuple2<Integer, Integer>, FlightSerializable> flight) {
+    private static Tuple2<Tuple2<Integer, Integer>, FlightSerializable>  reduceFlights(FlightSerializable flight) {
 
     }
 
