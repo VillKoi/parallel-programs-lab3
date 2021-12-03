@@ -71,9 +71,10 @@ public class FlightApp {
             System.exit(-1);
         }
 
-        SparkConf conf = new SparkConf().setAppName("lab3").setMaster("yarn")
-                .set("spark.hadoop.yarn.resourcemanager.hostname", "127.0.0.1")
-                .set("spark.hadoop.yarn.resourcemanager.address", "127.0.0.1:8032");
+        SparkConf conf = new SparkConf().setAppName("lab3");
+//                .setMaster("yarn")
+//                .set("spark.hadoop.yarn.resourcemanager.hostname", "127.0.0.1")
+//                .set("spark.hadoop.yarn.resourcemanager.address", "127.0.0.1:8032");
         JavaSparkContext sctx = new JavaSparkContext(conf);
 
         String flightMapperPath = args[0];
@@ -88,8 +89,8 @@ public class FlightApp {
         JavaPairRDD<Integer, AirportSerializable> airportRddPairs = airportRddRecords
                 .mapToPair(x -> mapAirports(x));
 
-        Map<Integer, AirportSerializable> mapAirports = airportRddPairs.collectAsMap();
-        final Broadcast<Map<Integer, AirportSerializable>> airportsBroadcasted = sctx.broadcast(mapAirports);
+        Map<Integer, AirportSerializable> mapCollectAirports = airportRddPairs.collectAsMap();
+        final Broadcast<Map<Integer, AirportSerializable>> airportsBroadcasted = sctx.broadcast(mapCollectAirports);
 
         JavaRDD<String> result = flightRddRecords
                 .mapToPair(x -> mapFlights(x))
