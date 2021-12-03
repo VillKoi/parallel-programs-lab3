@@ -101,13 +101,12 @@ public class FlightApp {
     }
 
     private static String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
-        return "ORIGIN_AIRPORT_ID:" + x._1._1.toString() +
-                ", ORIGIN_AIRPORT_NAME" + value.get(x._1._1).getName() +
-                ", DEST_AIRPORT_ID:" + x._1._2.toString() +
-                ", DEST_AIRPORT_NAME" + value.get(x._1._2).getName() +
+        return "ORIGIN_AIRPORT_NAME: " + value.get(x._1._1).getName() +
+                ", DEST_AIRPORT_NAME: " + value.get(x._1._2).getName() +
                 ", Max delaying time: " + x._2.getMaxDelayingTime() +
-                ", Percent delaying:" + x._2.getPercentDelaying() +
-                ", Percent cancelled:" + x._2.getPercentCancelled() +
-                ", Percent delaying and cancelled:" + x._2.getPercentDelayingAndCancelled();
+                ", Percent delaying and cancelled: " + x._2.getPercentDelayingAndCancelled() +
+                ", Percent delaying: " + x._2.getPercentDelaying() +
+                ", Percent cancelled: " + x._2.getPercentCancelled();
+
     }
 }
