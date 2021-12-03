@@ -72,9 +72,6 @@ public class FlightApp {
         }
 
         SparkConf conf = new SparkConf().setAppName("lab3");
-//                .setMaster("yarn")
-//                .set("spark.hadoop.yarn.resourcemanager.hostname", "127.0.0.1")
-//                .set("spark.hadoop.yarn.resourcemanager.address", "127.0.0.1:8032");
         JavaSparkContext sctx = new JavaSparkContext(conf);
 
         String flightMapperPath = args[0];
@@ -107,6 +104,5 @@ public class FlightApp {
                 ", Percent delaying and cancelled: " + x._2.getPercentDelayingAndCancelled() +
                 ", Percent delaying: " + x._2.getPercentDelaying() +
                 ", Percent cancelled: " + x._2.getPercentCancelled();
-
     }
 }
