@@ -97,7 +97,7 @@ public class FlightApp {
                 .reduceByKey((x, y) -> x.AddFlight(y))
                 .map(x -> createOutPut(airportsBroadcasted.value(), x));
 
-        result.saveAsTextFile("hdfs://localhost:9000/output");
+        result.saveAsTextFile("hdfs://localhost:9000/user/tmvolno1/output");
     }
 
     private static String createOutPut(Map<Integer, AirportSerializable> value, Tuple2<Tuple2<Integer, Integer>, FlightSerializable> x) {
